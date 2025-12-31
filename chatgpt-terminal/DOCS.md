@@ -35,12 +35,12 @@ This add-on provides a web-based terminal with OpenAI Codex CLI pre-installed, a
 
 **Method 3: Using File Editor**
 1. Install the "File Editor" add-on in Home Assistant
-2. Create a file: `/config/codex-config/auth.json`
+2. Access the terminal and create the file at: `/data/home/.codex/auth.json`
 3. Paste your auth.json contents
 4. Save and restart the ChatGPT Terminal add-on
 5. Done! ✅
 
-Your authentication is stored in `/config/codex-config/auth.json` and will persist across updates and restarts.
+Your authentication is stored in the container's home directory (`~/.codex/auth.json` which maps to `/data/home/.codex/auth.json`) and will persist across updates and restarts.
 
 ## Usage
 

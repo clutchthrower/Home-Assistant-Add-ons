@@ -64,7 +64,7 @@ codex-logout
 The add-on requires no configuration. All settings are handled automatically:
 
 - **Ports**: Web interface on 7682, OAuth callback on 1455
-- **Authentication**: OAuth with OpenAI (credentials stored securely in `/config/codex-config/`)
+- **Authentication**: OAuth with OpenAI (credentials stored securely in `/data/home/.codex/`)
 - **Terminal**: Full bash environment with OpenAI Codex CLI pre-installed
 - **Volumes**: Access to both `/config` (Home Assistant) and `/addons` (for development)
 

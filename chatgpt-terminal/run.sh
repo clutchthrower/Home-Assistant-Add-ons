@@ -11,12 +11,12 @@ init_environment() {
     local config_dir="/data/.config"
     local cache_dir="/data/.cache"
     local state_dir="/data/.local/state"
-    local codex_config_dir="/data/.config/codex"
+    local codex_config_dir="/data/home/.codex"
 
     bashio::log.info "Initializing OpenAI Codex environment in /data..."
 
     # Create all required directories
-    if ! mkdir -p "$data_home" "$config_dir/codex" "$cache_dir" "$state_dir" "/data/.local"; then
+    if ! mkdir -p "$data_home" "$codex_config_dir" "$config_dir" "$cache_dir" "$state_dir" "/data/.local"; then
         bashio::log.error "Failed to create directories in /data"
         exit 1
     fi
@@ -154,7 +154,7 @@ setup_session_picker() {
 # Determine Codex launch command based on configuration
 get_codex_launch_command() {
     local auto_launch_codex
-    local auth_file="${OPENAI_CONFIG_DIR:-/data/.config/codex}/auth.json"
+    local auth_file="${OPENAI_CONFIG_DIR:-/data/home/.codex}/auth.json"
 
     # Get configuration value, default to false
     auto_launch_codex=$(bashio::config 'auto_launch_codex' 'false')
