@@ -31,10 +31,7 @@ ports_description:
 
 # Add-on configuration options
 options:
-  auto_launch_codex:
-    name: "Auto-launch Codex"
-    description: "Auto-start Codex on terminal open (disable for session picker)"
-    default: false
+  auto_launch_codex: false
 schema:
   auto_launch_codex: bool?
 
