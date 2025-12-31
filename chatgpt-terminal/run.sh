@@ -168,7 +168,7 @@ start_web_terminal() {
 
     # Log the configuration being used
     local auto_launch_codex
-    auto_launch_codex=$(bashio::config 'auto_launch_codex' 'true')
+    auto_launch_codex=$(bashio::config 'auto_launch_codex' 'false')
     bashio::log.info "Auto-launch Codex: ${auto_launch_codex}"
     
     # Run ttyd with improved configuration
