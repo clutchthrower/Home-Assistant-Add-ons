@@ -24,8 +24,10 @@ panel_admin: true
 # Port configuration
 ports:
   7682/tcp: 7682
+  1455/tcp: 1455
 ports_description:
   7682/tcp: "Web terminal (not required for ingress)"
+  1455/tcp: "OAuth callback port for Codex authentication"
 
 # Add-on configuration options
 options:

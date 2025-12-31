@@ -63,10 +63,24 @@ codex-logout
 
 The add-on requires no configuration. All settings are handled automatically:
 
-- **Port**: Web interface runs on port 7682
-- **Authentication**: OpenAI API key (credentials stored securely in `/config/codex-config/`)
+- **Ports**: Web interface on 7682, OAuth callback on 1455
+- **Authentication**: OAuth with OpenAI (credentials stored securely in `/config/codex-config/`)
 - **Terminal**: Full bash environment with OpenAI Codex CLI pre-installed
 - **Volumes**: Access to both `/config` (Home Assistant) and `/addons` (for development)
+
+### First-Time OAuth Setup
+
+When authenticating for the first time, Codex will provide an OAuth URL. **If your Home Assistant is on a different device**, you need to modify the URL:
+
+```bash
+# Original URL from Codex:
+http://localhost:1455/auth/callback...
+
+# Change to (replace with your HA IP):
+http://YOUR_HA_IP:1455/auth/callback...
+```
+
+Example: `http://192.168.1.100:1455/auth/callback...`
 
 ## Troubleshooting
 

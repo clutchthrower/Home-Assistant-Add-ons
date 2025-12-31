@@ -16,9 +16,25 @@ This add-on provides a web-based terminal with OpenAI Codex CLI pre-installed, a
 
 ## Configuration
 
-No configuration is needed! The add-on uses API key authentication, which you'll set up the first time you use it.
+No configuration is needed! The add-on uses OAuth authentication, which you'll complete the first time you use it.
 
-Your API credentials are stored in the `/config/codex-config` directory and will persist across add-on updates and restarts, so you won't need to configure it again.
+Your OAuth credentials are stored in the `/config/codex-config` directory and will persist across add-on updates and restarts, so you won't need to authenticate again.
+
+### OAuth Authentication Setup
+
+When you first run Codex, it will provide an OAuth URL like:
+```
+https://auth.openai.com/oauth/authorize?...&redirect_uri=http://localhost:1455/auth/callback...
+```
+
+**If Home Assistant is on a different device:**
+1. **Replace `localhost` with your Home Assistant IP address** in the OAuth URL
+2. Example: Change `http://localhost:1455` to `http://192.168.1.100:1455` (use your HA IP)
+3. Paste the modified URL into your browser
+4. Complete the OpenAI authentication
+5. The browser will redirect back to the addon, completing the authentication
+
+**Alternative:** Access the terminal directly on the Home Assistant machine (if possible) to avoid this step.
 
 ## Usage
 
@@ -49,9 +65,22 @@ The terminal starts directly in your `/config` directory, giving you immediate a
 
 ## Troubleshooting
 
+### Authentication Issues
+
+**OAuth redirect not working:**
+- Make sure you replaced `localhost` with your Home Assistant IP address in the OAuth URL
+- Ensure port 1455 is accessible (the addon automatically exposes it)
+- Try accessing the terminal from the Home Assistant machine directly
+
+**"Connection refused" on callback:**
+- Verify your Home Assistant IP address is correct
+- Check that the addon is running when you complete the OAuth flow
+- Restart the addon and try authentication again
+
+### General Issues
+
 - If Codex doesn't start automatically, try running `node /usr/local/bin/codex -i` manually
 - If you see permission errors, try restarting the add-on
-- If you have authentication issues, check your API key configuration
 - Check the add-on logs for any error messages
 
 ## Credits
