@@ -27,14 +27,20 @@ When you first run Codex, it will provide an OAuth URL like:
 https://auth.openai.com/oauth/authorize?...&redirect_uri=http://localhost:1455/auth/callback...
 ```
 
-**If Home Assistant is on a different device:**
-1. **Replace `localhost` with your Home Assistant IP address** in the OAuth URL
-2. Example: Change `http://localhost:1455` to `http://192.168.1.100:1455` (use your HA IP)
-3. Paste the modified URL into your browser
-4. Complete the OpenAI authentication
-5. The browser will redirect back to the addon, completing the authentication
+**If Home Assistant is on a different device (Recommended Method):**
+1. In the terminal, run the authentication helper: `codex-auth-helper.sh`
+2. Select option 1: "OAuth Callback URL"
+3. Start Codex authentication in another terminal (or background)
+4. Copy the OAuth URL from Codex and open it in your browser
+5. Complete OpenAI authentication
+6. When the browser fails to redirect, copy the ENTIRE callback URL from the address bar
+   - Example: `http://localhost:1455/auth/callback?code=ac_xxx...&state=yyy`
+7. Paste the callback URL into the auth helper
+8. Authentication complete! ✅
 
-**Alternative:** Access the terminal directly on the Home Assistant machine (if possible) to avoid this step.
+**Alternative Method - Manual URL Modification:**
+1. Replace `localhost` with your Home Assistant IP in both the OAuth URL AND ensure Codex is listening on 0.0.0.0
+2. This typically requires additional configuration
 
 ## Usage
 
