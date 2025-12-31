@@ -1,6 +1,6 @@
-# ChatGPT Codex CLI Terminal for Home Assistant
+# Home Assistant Add-ons
 
-This repository contains a custom add-on that integrates OpenAI's ChatGPT Codex CLI with Home Assistant.
+This repository contains custom Home Assistant add-ons for AI-powered terminal interfaces.
 
 ## Installation
 
@@ -12,18 +12,36 @@ To add this repository to your Home Assistant instance:
 4. Add the URL: `https://github.com/clutchthrower/home-assistant-chatgpt`
 5. Click **Add**
 
-## Add-ons
+## Available Add-ons
 
-### ChatGPT Codex CLI
+### Claude Terminal
 
-A web-based terminal interface with ChatGPT Codex CLI pre-installed. This add-on provides a terminal environment directly in your Home Assistant dashboard, allowing you to use ChatGPT's powerful AI capabilities for coding, automation, and configuration tasks.
+A web-based terminal interface with Anthropic's Claude Code CLI pre-installed. This add-on provides a terminal environment directly in your Home Assistant dashboard, allowing you to use Claude's powerful AI capabilities for coding, automation, and configuration tasks.
 
 Features:
 - Web terminal access through your Home Assistant UI
-- Pre-installed ChatGPT Codex CLI that launches automatically
+- Pre-installed Claude Code CLI that launches automatically
 - Direct access to your Home Assistant config directory
-- No configuration needed (uses OAuth)
-- Access to ChatGPT's complete capabilities including:
+- OAuth authentication with Anthropic
+- Access to Claude's complete capabilities including:
+  - Code generation and explanation
+  - Debugging assistance
+  - Home Assistant automation help
+  - Learning resources
+
+[Documentation](claude-terminal/DOCS.md)
+
+### ChatGPT Terminal
+
+A web-based terminal interface with OpenAI's Codex CLI pre-installed. This add-on provides a terminal environment directly in your Home Assistant dashboard, allowing you to use ChatGPT's powerful AI capabilities for coding, automation, and configuration tasks.
+
+Features:
+- Web terminal access through your Home Assistant UI
+- Pre-installed OpenAI Codex CLI that launches automatically
+- Direct access to your Home Assistant config directory
+- API key authentication with OpenAI
+- Includes Python 3, git, vim, and other development tools
+- Access to Codex's complete capabilities including:
   - Code generation and explanation
   - Debugging assistance
   - Home Assistant automation help
@@ -37,7 +55,8 @@ If you have any questions or issues with this add-on, please create an issue in 
 
 ## Credits
 
-The original Claude Terminal add-on was created by [heytcass](https://github.com/heytcass). This version has been converted to use OpenAI's Codex CLI instead of Anthropic's Claude Code CLI.
+- **Claude Terminal** - Created by [heytcass](https://github.com/heytcass)
+- **ChatGPT Terminal** - Converted from Claude Terminal to use OpenAI's Codex CLI
 
 ## License
 
