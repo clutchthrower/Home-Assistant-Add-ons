@@ -63,7 +63,7 @@ codex-logout
 
 The add-on requires no configuration. All settings are handled automatically:
 
-- **Port**: Web interface runs on port 7681
+- **Port**: Web interface runs on port 7682
 - **Authentication**: OpenAI API key (credentials stored securely in `/config/codex-config/`)
 - **Terminal**: Full bash environment with OpenAI Codex CLI pre-installed
 - **Volumes**: Access to both `/config` (Home Assistant) and `/addons` (for development)
@@ -120,7 +120,7 @@ This add-on includes a comprehensive development setup using Nix:
 ```bash
 # Available development commands
 build-addon      # Build the add-on container with Podman
-run-addon        # Run add-on locally on port 7681
+run-addon        # Run add-on locally on port 7682
 lint-dockerfile  # Lint Dockerfile with hadolint
 test-endpoint    # Test web endpoint availability
 ```

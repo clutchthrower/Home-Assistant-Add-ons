@@ -149,7 +149,7 @@ get_codex_launch_command() {
 
 # Start main web terminal
 start_web_terminal() {
-    local port=7681
+    local port=7682
     bashio::log.info "Starting web terminal on port ${port}..."
     
     # Log environment information for debugging
