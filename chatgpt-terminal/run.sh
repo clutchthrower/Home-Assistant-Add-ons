@@ -127,21 +127,26 @@ setup_session_picker() {
 # Determine Codex launch command based on configuration
 get_codex_launch_command() {
     local auto_launch_codex
+    local auth_file="${OPENAI_CONFIG_DIR:-/data/.config/codex}/auth.json"
 
-    # Get configuration value, default to true for backward compatibility
-    auto_launch_codex=$(bashio::config 'auto_launch_codex' 'true')
+    # Get configuration value, default to false
+    auto_launch_codex=$(bashio::config 'auto_launch_codex' 'false')
 
-    if [ "$auto_launch_codex" = "true" ]; then
-        # Original behavior: auto-launch Codex directly
+    # Check if auth file exists
+    if [ ! -f "$auth_file" ]; then
+        # No auth file - run auth helper automatically
+        echo "clear && echo 'Welcome to ChatGPT Terminal!' && echo '' && echo 'No authentication found. Running setup helper...' && sleep 2 && /opt/scripts/codex-auth-helper.sh && exec bash"
+    elif [ "$auto_launch_codex" = "true" ]; then
+        # Auth exists and auto-launch enabled
         echo "clear && echo 'Welcome to ChatGPT Terminal!' && echo '' && echo 'Starting Codex...' && sleep 1 && node \$(which codex)"
     else
-        # New behavior: show interactive session picker
+        # Auth exists but auto-launch disabled - show session picker
         if [ -f /usr/local/bin/codex-session-picker ]; then
             echo "clear && /usr/local/bin/codex-session-picker"
         else
             # Fallback if session picker is missing
-            bashio::log.warning "Session picker not found, falling back to auto-launch"
-            echo "clear && echo 'Welcome to ChatGPT Terminal!' && echo '' && echo 'Starting Codex...' && sleep 1 && node \$(which codex)"
+            bashio::log.warning "Session picker not found, dropping to bash"
+            echo "clear && echo 'Welcome to ChatGPT Terminal!' && echo '' && echo 'Run: codex' && bash"
         fi
     fi
 }

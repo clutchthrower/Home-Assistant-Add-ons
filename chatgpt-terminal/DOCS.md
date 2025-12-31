@@ -16,31 +16,27 @@ This add-on provides a web-based terminal with OpenAI Codex CLI pre-installed, a
 
 ## Configuration
 
-No configuration is needed! The add-on uses OAuth authentication, which you'll complete the first time you use it.
+### First-Time Setup (Authentication)
 
-Your OAuth credentials are stored in the `/config/codex-config` directory and will persist across add-on updates and restarts, so you won't need to authenticate again.
+The add-on will automatically prompt you to set up authentication when you first open it.
 
-### OAuth Authentication Setup
+**Method 1: Copy auth.json (Recommended)**
+1. On your computer where you're already logged into Codex, find: `~/.codex/auth.json`
+2. Copy the file contents
+3. When the terminal opens, it will run the auth helper automatically
+4. Paste the contents when prompted
+5. Press Ctrl+D when done
+6. Done! ✅
 
-When you first run Codex, it will provide an OAuth URL like:
-```
-https://auth.openai.com/oauth/authorize?...&redirect_uri=http://localhost:1455/auth/callback...
-```
+**Method 2: Using File Editor**
+1. Install the "File Editor" add-on in Home Assistant (if not already installed)
+2. Create a file: `/config/codex-config/auth.json`
+3. Paste your auth.json contents from your computer
+4. Save the file
+5. Restart the ChatGPT Terminal add-on
+6. Done! ✅
 
-**If Home Assistant is on a different device (Recommended Method):**
-1. In the terminal, run the authentication helper: `codex-auth-helper.sh`
-2. Select option 1: "OAuth Callback URL"
-3. Start Codex authentication in another terminal (or background)
-4. Copy the OAuth URL from Codex and open it in your browser
-5. Complete OpenAI authentication
-6. When the browser fails to redirect, copy the ENTIRE callback URL from the address bar
-   - Example: `http://localhost:1455/auth/callback?code=ac_xxx...&state=yyy`
-7. Paste the callback URL into the auth helper
-8. Authentication complete! ✅
-
-**Alternative Method - Manual URL Modification:**
-1. Replace `localhost` with your Home Assistant IP in both the OAuth URL AND ensure Codex is listening on 0.0.0.0
-2. This typically requires additional configuration
+Your authentication is stored in `/config/codex-config/auth.json` and will persist across updates and restarts.
 
 ## Usage
 
@@ -73,21 +69,25 @@ The terminal starts directly in your `/config` directory, giving you immediate a
 
 ### Authentication Issues
 
-**OAuth redirect not working:**
-- Make sure you replaced `localhost` with your Home Assistant IP address in the OAuth URL
-- Ensure port 1455 is accessible (the addon automatically exposes it)
-- Try accessing the terminal from the Home Assistant machine directly
+**Can't find auth.json on your computer:**
+- Log into Codex on your PC first: `codex login`
+- The auth file is typically at: `~/.codex/auth.json` (Linux/Mac) or `%USERPROFILE%\.codex\auth.json` (Windows)
 
-**"Connection refused" on callback:**
-- Verify your Home Assistant IP address is correct
-- Check that the addon is running when you complete the OAuth flow
-- Restart the addon and try authentication again
+**Auth helper not accepting pasted content:**
+- Make sure you copied the ENTIRE file content
+- Verify it's valid JSON (should start with `{` and end with `}`)
+- Try using File Editor method instead
+
+**Codex not starting:**
+- Check that auth.json exists: `ls -la ~/.codex/auth.json` in the terminal
+- Verify the file has valid JSON: `cat ~/.codex/auth.json`
+- Try running auth helper manually: `codex-auth-helper.sh`
 
 ### General Issues
 
-- If Codex doesn't start automatically, try running `node /usr/local/bin/codex -i` manually
 - If you see permission errors, try restarting the add-on
 - Check the add-on logs for any error messages
+- To manually start Codex: run `codex` in the terminal
 
 ## Credits
 

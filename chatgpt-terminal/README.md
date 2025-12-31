@@ -68,19 +68,16 @@ The add-on requires no configuration. All settings are handled automatically:
 - **Terminal**: Full bash environment with OpenAI Codex CLI pre-installed
 - **Volumes**: Access to both `/config` (Home Assistant) and `/addons` (for development)
 
-### First-Time OAuth Setup
+### First-Time Setup
 
-When authenticating for the first time, Codex will provide an OAuth URL. **If your Home Assistant is on a different device**, you need to modify the URL:
+**Simple Authentication:**
+1. On your computer, locate your Codex auth file: `~/.codex/auth.json`
+2. Copy the file contents
+3. Open the terminal - it will automatically run the auth helper
+4. Paste the contents and press Ctrl+D
+5. Done! Start using Codex
 
-```bash
-# Original URL from Codex:
-http://localhost:1455/auth/callback...
-
-# Change to (replace with your HA IP):
-http://YOUR_HA_IP:1455/auth/callback...
-```
-
-Example: `http://192.168.1.100:1455/auth/callback...`
+**Alternative:** Use File Editor add-on to create `/config/codex-config/auth.json` with your auth contents
 
 ## Troubleshooting
 

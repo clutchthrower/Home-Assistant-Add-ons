@@ -1,195 +1,100 @@
 #!/bin/bash
 
 # Codex Authentication Helper
-# Provides alternative authentication methods when clipboard paste doesn't work
+# Helps users set up authentication by copying auth.json content
 
-show_auth_menu() {
+AUTH_DIR="${OPENAI_CONFIG_DIR:-$HOME/.codex}"
+AUTH_FILE="$AUTH_DIR/auth.json"
+
+show_banner() {
     clear
     echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║               🔐 Codex Authentication Helper                  ║"
+    echo "║          🔐 Codex Authentication Setup Helper                ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
     echo ""
-    echo "Choose authentication method:"
+}
+
+show_instructions() {
+    echo "To use Codex, you need to copy your authentication file."
     echo ""
-    echo "Options:"
-    echo "  1) 🔗 OAuth Callback URL (Recommended for remote access)"
-    echo "  2) 📋 Manual auth code input"
-    echo "  3) 📁 Read code from file (/config/auth-code.txt)"
-    echo "  4) 🔄 Retry standard authentication"
-    echo "  5) ❌ Exit"
+    echo "On your computer where you're already logged into Codex:"
+    echo "  1. Locate your auth file at: ~/.codex/auth.json"
+    echo "  2. Open the file and copy its contents"
+    echo "  3. Paste the contents below"
+    echo ""
+    echo "Or, if you prefer:"
+    echo "  - Use File Editor addon to create: /config/codex-config/auth.json"
+    echo "  - Copy/paste your auth.json contents there"
+    echo "  - Then restart this addon"
     echo ""
 }
 
-handle_oauth_callback() {
-    clear
-    echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║           OAuth Callback URL Authentication                  ║"
-    echo "╚══════════════════════════════════════════════════════════════╝"
-    echo ""
-    echo "Instructions:"
-    echo "1. Run 'codex' in the terminal to start authentication"
-    echo "2. Copy the OAuth URL and paste in your browser"
-    echo "3. Complete authentication on OpenAI's website"
-    echo "4. When browser tries to redirect to localhost:1455, it will fail"
-    echo "5. Copy the ENTIRE callback URL from your browser's address bar"
-    echo "6. Paste it below (it will look like: http://localhost:1455/auth/callback?code=...)"
-    echo ""
-    echo -n "Paste the callback URL here: "
-    read -r callback_url
+paste_auth_json() {
+    echo "Paste your auth.json contents below, then press Ctrl+D when done:"
+    echo "---"
 
-    if [ -z "$callback_url" ]; then
-        echo "❌ No URL provided"
-        return 1
-    fi
+    # Read multi-line input until EOF (Ctrl+D)
+    auth_content=$(cat)
 
-    # Extract the path and query string
-    callback_path=$(echo "$callback_url" | sed 's|^https\?://[^/]*||')
-
-    if [[ ! "$callback_path" =~ ^/auth/callback ]]; then
-        echo "❌ Invalid callback URL. Should contain '/auth/callback'"
-        return 1
-    fi
-
-    echo ""
-    echo "✅ Sending callback to Codex CLI..."
-
-    # Send the callback to the local Codex server
-    response=$(curl -s -w "\n%{http_code}" "http://localhost:1455${callback_path}" 2>&1)
-    http_code=$(echo "$response" | tail -n1)
-
-    if [ "$http_code" = "200" ] || [ "$http_code" = "302" ]; then
-        echo "✅ Authentication successful!"
+    if [ -z "$auth_content" ]; then
         echo ""
-        echo "You can now use Codex. Run 'codex' to start."
-        sleep 2
-        return 0
-    else
-        echo "❌ Authentication failed (HTTP $http_code)"
+        echo "❌ No content provided"
+        return 1
+    fi
+
+    # Validate it looks like JSON
+    if ! echo "$auth_content" | jq empty 2>/dev/null; then
         echo ""
-        echo "Make sure Codex is running and waiting for authentication."
-        echo "Try running 'codex' in another terminal session first."
-        return 1
-    fi
-}
-
-manual_auth_input() {
-    echo ""
-    echo "Please enter your authentication code:"
-    echo "(You can try pasting with Ctrl+Shift+V, right-click, or type manually)"
-    echo ""
-    echo -n "Code: "
-    read -r auth_code
-
-    if [ -z "$auth_code" ]; then
-        echo "❌ No code provided"
+        echo "❌ Invalid JSON format. Please check your auth.json file."
         return 1
     fi
 
-    # Save to temp file for Codex to read
-    echo "$auth_code" > /tmp/codex-auth-code
-    echo ""
-    echo "✅ Code saved. Starting Codex authentication..."
-    sleep 1
+    # Create directory if it doesn't exist
+    mkdir -p "$AUTH_DIR"
 
-    # Try to pipe the code to Codex
-    echo "$auth_code" | node "$(which codex)"
-}
-
-read_auth_from_file() {
-    local auth_file="/config/auth-code.txt"
+    # Save the auth content
+    echo "$auth_content" > "$AUTH_FILE"
+    chmod 600 "$AUTH_FILE"
 
     echo ""
-    echo "Looking for authentication code in: $auth_file"
-
-    if [ -f "$auth_file" ]; then
-        auth_code=$(cat "$auth_file")
-        if [ -z "$auth_code" ]; then
-            echo "❌ File exists but is empty"
-            return 1
-        fi
-
-        echo "✅ Code found. Starting Codex authentication..."
-        sleep 1
-
-        # Try to pipe the code to Codex
-        echo "$auth_code" | node "$(which codex)"
-
-        # Clean up the file after use
-        rm -f "$auth_file"
-        echo "🧹 Cleaned up auth code file"
-    else
-        echo "❌ File not found: $auth_file"
-        echo ""
-        echo "To use this method:"
-        echo "1. Create the file in Home Assistant's config directory"
-        echo "2. Paste your authentication code in the file"
-        echo "3. Save the file and try again"
-        return 1
-    fi
-}
-
-retry_standard_auth() {
+    echo "✅ Authentication file saved successfully!"
     echo ""
-    echo "🔄 Starting standard Codex authentication..."
+    echo "Location: $AUTH_FILE"
     echo ""
-    echo "Tips for pasting in the web terminal:"
-    echo "• Try Ctrl+Shift+V"
-    echo "• Try right-clicking"
-    echo "• Try the browser's Edit menu > Paste"
-    echo "• On mobile, long-press may show paste option"
-    echo ""
-    sleep 2
-    exec node "$(which codex)"
+    echo "You can now use Codex. Run 'codex' to start."
+    return 0
 }
 
 main() {
-    while true; do
-        show_auth_menu
+    show_banner
+    show_instructions
 
-        echo -n "Enter your choice [1-5]: "
-        read -r choice
+    # Check if auth file already exists
+    if [ -f "$AUTH_FILE" ]; then
+        echo "⚠️  Authentication file already exists at: $AUTH_FILE"
+        echo ""
+        echo -n "Do you want to replace it? (y/N): "
+        read -r response
+        if [[ ! "$response" =~ ^[Yy]$ ]]; then
+            echo "Cancelled. Your existing auth file is unchanged."
+            exit 0
+        fi
+        echo ""
+    fi
 
-        case "$choice" in
-            1)
-                handle_oauth_callback
-                if [ $? -eq 0 ]; then
-                    exit 0
-                fi
-                echo ""
-                echo "Press Enter to continue..."
-                read -r
-                ;;
-            2)
-                manual_auth_input
-                if [ $? -eq 0 ]; then
-                    exit 0
-                fi
-                echo ""
-                echo "Press Enter to continue..."
-                read -r
-                ;;
-            3)
-                read_auth_from_file
-                if [ $? -eq 0 ]; then
-                    exit 0
-                fi
-                echo ""
-                echo "Press Enter to continue..."
-                read -r
-                ;;
-            4)
-                retry_standard_auth
-                ;;
-            5)
-                echo "👋 Exiting..."
-                exit 0
-                ;;
-            *)
-                echo "❌ Invalid choice"
-                sleep 1
-                ;;
-        esac
-    done
+    paste_auth_json
+
+    if [ $? -eq 0 ]; then
+        echo ""
+        echo "Press Enter to continue..."
+        read -r
+        exit 0
+    else
+        echo ""
+        echo "Press Enter to try again or Ctrl+C to exit..."
+        read -r
+        main
+    fi
 }
 
 # Run main function
