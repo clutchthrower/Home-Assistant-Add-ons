@@ -32,8 +32,10 @@ ports_description:
 # Add-on configuration options
 options:
   auto_launch_codex: false
+  auth_json: ""
 schema:
   auto_launch_codex: bool?
+  auth_json: str?
 
 # Volume mappings for file access
 map:

@@ -70,14 +70,16 @@ The add-on requires no configuration. All settings are handled automatically:
 
 ### First-Time Setup
 
-**Simple Authentication:**
-1. On your computer, locate your Codex auth file: `~/.codex/auth.json`
-2. Copy the file contents
-3. Open the terminal - it will automatically run the auth helper
-4. Paste the contents and press Ctrl+D
-5. Done! Start using Codex
+**Easiest Method - Configuration Page:**
+1. Copy your `~/.codex/auth.json` file contents from your computer
+2. Go to addon **Configuration** tab
+3. Paste into the **"Auth JSON"** text box
+4. Save and restart
+5. Done! ✅
 
-**Alternative:** Use File Editor add-on to create `/config/codex-config/auth.json` with your auth contents
+**Alternative Methods:**
+- Paste in terminal when auth helper runs automatically
+- Use File Editor to create `/config/codex-config/auth.json`
 
 ## Troubleshooting
 

@@ -38,11 +38,38 @@ init_environment() {
     # Migrate any existing authentication files from legacy locations
     migrate_legacy_auth_files "$codex_config_dir"
 
+    # Setup auth from configuration if provided
+    setup_auth_from_config "$codex_config_dir"
+
     bashio::log.info "Environment initialized:"
     bashio::log.info "  - Home: $HOME"
     bashio::log.info "  - Config: $XDG_CONFIG_HOME"
     bashio::log.info "  - Codex config: $OPENAI_CONFIG_DIR"
     bashio::log.info "  - Cache: $XDG_CACHE_HOME"
+}
+
+# Setup authentication from configuration option
+setup_auth_from_config() {
+    local target_dir="$1"
+    local auth_file="$target_dir/auth.json"
+
+    # Get auth_json from configuration
+    local auth_json_config
+    auth_json_config=$(bashio::config 'auth_json' '')
+
+    if [ -n "$auth_json_config" ]; then
+        bashio::log.info "Setting up authentication from configuration..."
+
+        # Create directory if it doesn't exist
+        mkdir -p "$target_dir"
+
+        # Write the auth.json content
+        echo "$auth_json_config" > "$auth_file"
+        chmod 600 "$auth_file"
+
+        bashio::log.info "✅ Authentication file created from configuration"
+        bashio::log.info "Location: $auth_file"
+    fi
 }
 
 # One-time migration of existing authentication files
