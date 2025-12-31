@@ -1,32 +1,34 @@
 #!/bin/bash
 
-# Claude Session Picker - Interactive menu for choosing Claude session type
+# Codex Session Picker - Interactive menu for choosing Codex session type
 # Provides options for new session, continue, resume, manual command, or regular shell
 
 show_banner() {
     clear
     echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║                    🤖 Claude Terminal                        ║"
+    echo "║                   🤖 ChatGPT Terminal                        ║"
     echo "║                   Interactive Session Picker                ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
     echo ""
 }
 
 show_menu() {
-    echo "Choose your Claude session type:"
+    echo "Choose your Codex session type:"
     echo ""
     echo "  1) 🆕 New interactive session (default)"
     echo "  2) ⏩ Continue most recent conversation (-c)"
-    echo "  3) 📋 Resume from conversation list (-r)" 
-    echo "  4) ⚙️  Custom Claude command (manual flags)"
-    echo "  5) 🐚 Drop to bash shell"
-    echo "  6) ❌ Exit"
+    echo "  3) 📋 Resume from conversation list (-r)"
+    echo "  4) ⚙️  Custom Codex command (manual flags)"
+    echo "  5) 🔐 Authentication helper (if paste doesn't work)"
+    echo "  6) 🐚 Drop to bash shell"
+    echo "  7) ❌ Exit"
     echo ""
 }
 
 get_user_choice() {
     local choice
-    echo -n "Enter your choice [1-6] (default: 1): "
+    # Send prompt to stderr to avoid capturing it with the return value
+    printf "Enter your choice [1-7] (default: 1): " >&2
     read -r choice
     
     # Default to 1 if empty
@@ -34,63 +36,67 @@ get_user_choice() {
         choice=1
     fi
     
+    # Trim whitespace and return only the choice
+    choice=$(echo "$choice" | tr -d '[:space:]')
     echo "$choice"
 }
 
-launch_claude_new() {
-    echo "🚀 Starting new Claude session..."
+launch_codex_new() {
+    echo "🚀 Starting new Codex session..."
     sleep 1
-    exec node "$(which claude)"
+    exec node "$(which codex)"
 }
 
-launch_claude_continue() {
+launch_codex_continue() {
     echo "⏩ Continuing most recent conversation..."
     sleep 1
-    exec node "$(which claude)" -c
+    exec node "$(which codex)" -c
 }
 
-launch_claude_resume() {
+launch_codex_resume() {
     echo "📋 Opening conversation list for selection..."
     sleep 1
-    exec node "$(which claude)" -r
+    exec node "$(which codex)" -r
 }
 
-launch_claude_custom() {
+launch_codex_custom() {
     echo ""
-    echo "Enter your Claude command (e.g., 'claude --help' or 'claude -p \"hello\"'):"
+    echo "Enter your Codex command (e.g., 'codex --help' or 'codex -p \"hello\"'):"
     echo "Available flags: -c (continue), -r (resume), -p (print), --model, etc."
-    echo -n "> claude "
+    echo -n "> codex "
     read -r custom_args
-    
+
     if [ -z "$custom_args" ]; then
         echo "No arguments provided. Starting default session..."
-        launch_claude_new
+        launch_codex_new
     else
-        echo "🚀 Running: claude $custom_args"
+        echo "🚀 Running: codex $custom_args"
         sleep 1
         # Use eval to properly handle quoted arguments
-        eval "exec node \$(which claude) $custom_args"
+        eval "exec node \$(which codex) $custom_args"
     fi
+}
+
+launch_auth_helper() {
+    echo "🔐 Starting authentication helper..."
+    sleep 1
+    exec /opt/scripts/codex-auth-helper.sh
 }
 
 launch_bash_shell() {
     echo "🐚 Dropping to bash shell..."
-    echo "Tip: Run 'claude' manually when ready, or 'claude-logout' to clear credentials"
+    echo "Tip: Run 'codex' manually when ready"
     sleep 1
     exec bash
 }
 
-save_credentials_and_exit() {
-    echo "💾 Saving credentials before exit..."
-    /usr/local/bin/credentials-manager save
+exit_session_picker() {
+    echo "👋 Goodbye!"
     exit 0
 }
 
 # Main execution flow
 main() {
-    # Ensure credentials are managed
-    /usr/local/bin/credentials-manager save > /dev/null 2>&1
-    
     while true; do
         show_banner
         show_menu
@@ -98,29 +104,32 @@ main() {
         
         case "$choice" in
             1)
-                launch_claude_new
+                launch_codex_new
                 ;;
             2)
-                launch_claude_continue
+                launch_codex_continue
                 ;;
             3)
-                launch_claude_resume
+                launch_codex_resume
                 ;;
             4)
-                launch_claude_custom
+                launch_codex_custom
                 ;;
             5)
-                launch_bash_shell
+                launch_auth_helper
                 ;;
             6)
-                save_credentials_and_exit
+                launch_bash_shell
+                ;;
+            7)
+                exit_session_picker
                 ;;
             *)
                 echo ""
-                echo "❌ Invalid choice: $choice"
-                echo "Please select a number between 1-6"
+                echo "❌ Invalid choice: '$choice'"
+                echo "Please select a number between 1-7"
                 echo ""
-                echo "Press Enter to continue..."
+                printf "Press Enter to continue..." >&2
                 read -r
                 ;;
         esac
@@ -128,7 +137,7 @@ main() {
 }
 
 # Handle cleanup on exit
-trap 'save_credentials_and_exit' EXIT INT TERM
+trap 'exit_session_picker' EXIT INT TERM
 
 # Run main function
 main "$@"

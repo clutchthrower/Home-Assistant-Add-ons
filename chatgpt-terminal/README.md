@@ -1,14 +1,14 @@
-# Claude Terminal for Home Assistant
+# ChatGPT Terminal for Home Assistant
 
-A secure, web-based terminal with Claude Code CLI pre-installed for Home Assistant.
+A secure, web-based terminal with OpenAI Codex CLI pre-installed for Home Assistant.
 
-![Claude Terminal Screenshot](https://github.com/heytcass/home-assistant-addons/raw/main/claude-terminal/screenshot.png)
+![ChatGPT Terminal Screenshot](https://github.com/heytcass/home-assistant-addons/raw/main/chatgpt-terminal/screenshot.png)
 
-*Claude Terminal running in Home Assistant*
+*ChatGPT Terminal running in Home Assistant*
 
-## What is Claude Terminal?
+## What is ChatGPT Terminal?
 
-This add-on provides a web-based terminal interface with Claude Code CLI pre-installed, allowing you to use Claude's powerful AI capabilities directly from your Home Assistant dashboard. It gives you direct access to Anthropic's Claude AI assistant through a terminal, ideal for:
+This add-on provides a web-based terminal interface with OpenAI Codex CLI pre-installed, allowing you to use ChatGPT's powerful AI capabilities directly from your Home Assistant dashboard. It gives you direct access to OpenAI's Codex AI assistant through a terminal, ideal for:
 
 - Writing and editing code
 - Debugging problems
@@ -17,53 +17,55 @@ This add-on provides a web-based terminal interface with Claude Code CLI pre-ins
 
 ## Features
 
-- **Web Terminal Interface**: Access Claude through a browser-based terminal using ttyd
-- **Auto-Launch**: Claude starts automatically when you open the terminal
-- **Latest Claude Code CLI**: Pre-installed with Anthropic's official CLI (@latest)
-- **No Configuration Needed**: Uses OAuth authentication for easy setup
+- **Web Terminal Interface**: Access Codex through a browser-based terminal using ttyd
+- **Auto-Launch**: Codex starts automatically when you open the terminal
+- **Latest OpenAI Codex CLI**: Pre-installed with OpenAI's official CLI (@latest)
+- **No Configuration Needed**: Uses API key authentication for easy setup
 - **Direct Config Access**: Terminal starts in your `/config` directory for immediate access to all Home Assistant files
 - **Home Assistant Integration**: Access directly from your dashboard
 - **Panel Icon**: Quick access from the sidebar with the code-braces icon
 - **Multi-Architecture Support**: Works on amd64, aarch64, and armv7 platforms
 - **Secure Credential Management**: Persistent authentication with safe credential storage
 - **Automatic Recovery**: Built-in fallbacks and error handling for reliable operation
+- **Development Tools**: Includes Python 3, git, vim, jq, tree, and wget for enhanced scripting capabilities
+- **Python Libraries**: Pre-installed with requests, aiohttp, yaml, and beautifulsoup4 for API and automation work
 
 ## Quick Start
 
-The terminal automatically starts Claude when you open it. You can immediately start using commands like:
+The terminal automatically starts Codex when you open it. You can immediately start using commands like:
 
 ```bash
-# Ask Claude a question directly
-claude "How can I write a Python script to control my lights?"
+# Ask Codex a question directly
+codex "How can I write a Python script to control my lights?"
 
 # Start an interactive session
-claude -i
+codex -i
 
 # Get help with available commands
-claude --help
+codex --help
 
 # Debug authentication if needed
-claude-auth debug
+codex-auth debug
 
 # Log out and re-authenticate
-claude-logout
+codex-logout
 ```
 
 ## Installation
 
 1. Add this repository to your Home Assistant add-on store
-2. Install the Claude Terminal add-on
+2. Install the ChatGPT Terminal add-on
 3. Start the add-on
 4. Click "OPEN WEB UI" or the sidebar icon to access
-5. On first use, follow the OAuth prompts to log in to your Anthropic account
+5. On first use, configure your OpenAI API key for authentication
 
 ## Configuration
 
 The add-on requires no configuration. All settings are handled automatically:
 
 - **Port**: Web interface runs on port 7681
-- **Authentication**: OAuth with Anthropic (credentials stored securely in `/config/claude-config/`)
-- **Terminal**: Full bash environment with Claude Code CLI pre-installed
+- **Authentication**: OpenAI API key (credentials stored securely in `/config/codex-config/`)
+- **Terminal**: Full bash environment with OpenAI Codex CLI pre-installed
 - **Volumes**: Access to both `/config` (Home Assistant) and `/addons` (for development)
 
 ## Troubleshooting
@@ -71,14 +73,14 @@ The add-on requires no configuration. All settings are handled automatically:
 ### Authentication Issues
 If you have authentication problems:
 ```bash
-claude-auth debug    # Show credential status
-claude-logout        # Clear credentials and re-authenticate
+codex-auth debug    # Show credential status
+codex-logout        # Clear credentials and re-authenticate
 ```
 
 ### Container Issues
 - Credentials are automatically saved and restored between restarts
 - Check add-on logs if the terminal doesn't load
-- Restart the add-on if Claude commands aren't recognized
+- Restart the add-on if Codex commands aren't recognized
 
 ### Development
 For local development and testing:
@@ -147,19 +149,19 @@ For detailed usage instructions, see the [documentation](DOCS.md).
 ### v1.0.0
 - Initial stable release
 - Web terminal interface with ttyd
-- Pre-installed Claude Code CLI
-- OAuth authentication support
+- Pre-installed OpenAI Codex CLI
+- API key authentication support
 
 ## Useful Links
 
-- [Claude Code Documentation](https://docs.anthropic.com/claude/docs/claude-code)
-- [Get an Anthropic API Key](https://console.anthropic.com/)
-- [Claude Code GitHub Repository](https://github.com/anthropics/claude-code)
+- [OpenAI Codex Documentation](https://platform.openai.com/docs/guides/code)
+- [Get an OpenAI API Key](https://platform.openai.com/api-keys)
+- [OpenAI Codex GitHub Repository](https://github.com/openai/openai-codex)
 - [Home Assistant Add-ons](https://www.home-assistant.io/addons/)
 
 ## Credits
 
-This add-on was created with the assistance of Claude Code itself! The development process, debugging, and documentation were all completed using Claude's AI capabilities - a perfect demonstration of what this add-on can help you accomplish.
+This add-on was converted from the Claude Terminal add-on to use OpenAI's Codex CLI instead. The conversion demonstrates the flexibility of the Home Assistant add-on system.
 
 ## License
 

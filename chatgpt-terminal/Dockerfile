@@ -9,22 +9,33 @@ RUN apk add --no-cache \
     bash \
     curl \
     nano \
+    git \
+    vim \
+    python3 \
+    py3-pip \
+    py3-requests \
+    py3-aiohttp \
+    py3-yaml \
+    py3-beautifulsoup4 \
+    jq \
+    tree \
+    wget \
     && (npm config set registry https://registry.npmjs.org/ || true) \
     && (npm config set fetch-retries 3 || true) \
     && (npm config set fetch-retry-mintimeout 20000 || true) \
     && (npm config set fetch-retry-maxtimeout 120000 || true) \
     && (npm config set fetch-timeout 300000 || true) \
     && for i in 1 2 3; do \
-        echo "Attempt $i: Installing Claude Code CLI..." && \
-        npm install -g @anthropic-ai/claude-code@latest && \
-        echo "Successfully installed Claude Code CLI" && \
+        echo "Attempt $i: Installing OpenAI Codex CLI..." && \
+        npm install -g @openai/codex@latest && \
+        echo "Successfully installed OpenAI Codex CLI" && \
         break || \
         (echo "Attempt $i failed, retrying in 10 seconds..." && sleep 10); \
     done \
     && npm cache clean --force
 
-# Create directory for Claude configuration and set working directory
-RUN mkdir -p /config/claude-config
+# Create directory for Codex configuration and set working directory
+RUN mkdir -p /config/codex-config
 WORKDIR /config
 
 # Copy startup script and modular scripts

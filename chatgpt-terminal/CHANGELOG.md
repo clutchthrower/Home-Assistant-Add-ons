@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.0.0 (Conversion to ChatGPT/Codex)
+
+### 🔄 Major Changes
+- **Converted from Claude Code CLI to OpenAI Codex CLI**: Complete platform migration
+  - Replaced `@anthropic-ai/claude-code` with `@openai/codex`
+  - Updated all references from Claude to Codex/ChatGPT
+  - Changed authentication from Anthropic OAuth to OpenAI API key
+  - Renamed scripts: `claude-*` to `codex-*`
+  - Updated environment variables: `ANTHROPIC_*` to `OPENAI_*`
+  - Changed config directory from `/config/claude-config/` to `/config/codex-config/`
+  - Updated configuration option: `auto_launch_claude` to `auto_launch_codex`
+  - Changed API endpoint checks from api.anthropic.com to api.openai.com
+
+### ✨ New Features
+- **Added Python and development tools**: Enhanced container with scripting and automation capabilities
+  - **Python 3** with pip and commonly-used libraries (requests, aiohttp, yaml, beautifulsoup4)
+  - **git** for version control
+  - **vim** for advanced text editing
+  - **jq** for JSON processing (essential for API work)
+  - **tree** for directory visualization
+  - **wget** for network operations
+
+---
+
+## Historical Versions (Claude Code CLI)
+
+The following versions were based on Anthropic's Claude Code CLI before the conversion to OpenAI Codex.
+
 ## 1.4.0
 
 ### ✨ New Features

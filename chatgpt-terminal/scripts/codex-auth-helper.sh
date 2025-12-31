@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Claude Authentication Helper
+# Codex Authentication Helper
 # Provides alternative authentication methods when clipboard paste doesn't work
 
 show_auth_menu() {
     clear
     echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║               🔐 Claude Authentication Helper                 ║"
+    echo "║               🔐 Codex Authentication Helper                  ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
     echo ""
     echo "Having trouble pasting the authentication code?"
@@ -32,14 +32,14 @@ manual_auth_input() {
         return 1
     fi
 
-    # Save to temp file for Claude to read
-    echo "$auth_code" > /tmp/claude-auth-code
+    # Save to temp file for Codex to read
+    echo "$auth_code" > /tmp/codex-auth-code
     echo ""
-    echo "✅ Code saved. Starting Claude authentication..."
+    echo "✅ Code saved. Starting Codex authentication..."
     sleep 1
 
-    # Try to pipe the code to Claude
-    echo "$auth_code" | node "$(which claude)"
+    # Try to pipe the code to Codex
+    echo "$auth_code" | node "$(which codex)"
 }
 
 read_auth_from_file() {
@@ -55,11 +55,11 @@ read_auth_from_file() {
             return 1
         fi
 
-        echo "✅ Code found. Starting Claude authentication..."
+        echo "✅ Code found. Starting Codex authentication..."
         sleep 1
 
-        # Try to pipe the code to Claude
-        echo "$auth_code" | node "$(which claude)"
+        # Try to pipe the code to Codex
+        echo "$auth_code" | node "$(which codex)"
 
         # Clean up the file after use
         rm -f "$auth_file"
@@ -77,7 +77,7 @@ read_auth_from_file() {
 
 retry_standard_auth() {
     echo ""
-    echo "🔄 Starting standard Claude authentication..."
+    echo "🔄 Starting standard Codex authentication..."
     echo ""
     echo "Tips for pasting in the web terminal:"
     echo "• Try Ctrl+Shift+V"
@@ -86,7 +86,7 @@ retry_standard_auth() {
     echo "• On mobile, long-press may show paste option"
     echo ""
     sleep 2
-    exec node "$(which claude)"
+    exec node "$(which codex)"
 }
 
 main() {

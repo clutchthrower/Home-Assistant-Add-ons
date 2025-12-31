@@ -17,7 +17,7 @@ Follow these steps to install the add-on:
 
 ## Configuration
 
-No configuration is needed! The add-on uses OAuth authentication, so you'll be prompted to log in to your Anthropic account the first time you use it.
+No configuration is needed! The add-on uses API key authentication, so you'll be prompted to set up your OpenAI API key the first time you use it.
 
 ## Usage
 
@@ -106,11 +106,12 @@ ChatGPT Terminal is designed with security in mind:
 
 - The add-on runs in an isolated container
 - Your code and queries go directly to OpenAI's API
-- OAuth authentication ensures secure access to your account
+- API key authentication ensures secure access to your account
 
 To further enhance security:
-- Log out when not actively using the terminal
+- Keep your API key secure and don't share it
 - Monitor the add-on logs for unusual activity
+- Rotate your API keys periodically
 - Keep your OpenAI account secure with a strong password
 
 ## Support
@@ -121,7 +122,7 @@ To further enhance security:
 
 ## Credits
 
-This add-on was created by [heytcass](https://github.com/heytcass) with the assistance of Claude Code itself! The entire development process, debugging, and documentation were all completed using Claude's AI capabilities.
+The original Claude Terminal add-on was created by [heytcass](https://github.com/heytcass). This version has been converted to use OpenAI's Codex CLI instead of Anthropic's Claude Code CLI.
 
 ## License
 

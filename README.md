@@ -37,7 +37,7 @@ If you have any questions or issues with this add-on, please create an issue in 
 
 ## Credits
 
-The original add-on was created by [heytcass](https://github.com/heytcass) with the assistance of Claude Code itself! The development process, debugging, and documentation were all completed using Claude's AI capabilities.
+The original Claude Terminal add-on was created by [heytcass](https://github.com/heytcass). This version has been converted to use OpenAI's Codex CLI instead of Anthropic's Claude Code CLI.
 
 ## License
 

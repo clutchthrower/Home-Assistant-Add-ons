@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
 
-# Health check script for Claude Terminal add-on
+# Health check script for ChatGPT Terminal add-on
 # Validates environment and provides diagnostic information
 
 check_system_resources() {
@@ -67,22 +67,22 @@ check_node_installation() {
     fi
 }
 
-check_claude_cli() {
-    bashio::log.info "=== Claude CLI Check ==="
+check_codex_cli() {
+    bashio::log.info "=== Codex CLI Check ==="
 
-    if command -v claude >/dev/null 2>&1; then
-        bashio::log.info "Claude CLI found at: $(which claude) ✓"
+    if command -v codex >/dev/null 2>&1; then
+        bashio::log.info "Codex CLI found at: $(which codex) ✓"
 
-        # Check if Claude CLI is executable
-        if [ -x "$(which claude)" ]; then
-            bashio::log.info "Claude CLI is executable ✓"
+        # Check if Codex CLI is executable
+        if [ -x "$(which codex)" ]; then
+            bashio::log.info "Codex CLI is executable ✓"
         else
-            bashio::log.error "Claude CLI is not executable ✗"
+            bashio::log.error "Codex CLI is not executable ✗"
             return 1
         fi
     else
-        bashio::log.error "Claude CLI not found ✗"
-        bashio::log.info "Attempting to install Claude CLI..."
+        bashio::log.error "Codex CLI not found ✗"
+        bashio::log.info "Attempting to install Codex CLI..."
         return 1
     fi
 }
@@ -102,7 +102,7 @@ check_network_connectivity() {
     if curl -s --head --connect-timeout 10 --max-time 15 https://registry.npmjs.org > /dev/null; then
         bashio::log.info "Can reach npm registry ✓"
     else
-        bashio::log.warning "Cannot reach npm registry - this may affect Claude CLI installation"
+        bashio::log.warning "Cannot reach npm registry - this may affect Codex CLI installation"
         bashio::log.info "This could be due to:"
         bashio::log.info "  - Network proxy/firewall blocking access"
         bashio::log.info "  - DNS resolution issues"
@@ -121,17 +121,17 @@ check_network_connectivity() {
         bashio::log.info "  3. Check VM network adapter settings"
     fi
 
-    # Try to reach Anthropic API
-    if curl -s --head --connect-timeout 10 --max-time 15 https://api.anthropic.com > /dev/null; then
-        bashio::log.info "Can reach Anthropic API ✓"
+    # Try to reach OpenAI API
+    if curl -s --head --connect-timeout 10 --max-time 15 https://api.openai.com > /dev/null; then
+        bashio::log.info "Can reach OpenAI API ✓"
     else
-        bashio::log.warning "Cannot reach Anthropic API - this may affect Claude functionality"
+        bashio::log.warning "Cannot reach OpenAI API - this may affect Codex functionality"
     fi
 }
 
 run_diagnostics() {
     bashio::log.info "========================================="
-    bashio::log.info "Claude Terminal Add-on Health Check"
+    bashio::log.info "ChatGPT Terminal Add-on Health Check"
     bashio::log.info "========================================="
 
     local errors=0
@@ -139,7 +139,7 @@ run_diagnostics() {
     check_system_resources || ((errors++))
     check_directory_permissions || ((errors++))
     check_node_installation || ((errors++))
-    check_claude_cli || ((errors++))
+    check_codex_cli || ((errors++))
     check_network_connectivity || ((errors++))
 
     bashio::log.info "========================================="

@@ -1,8 +1,8 @@
 ---
-name: "Claude Terminal"
-description: "Terminal interface for Anthropic's Claude Code CLI with persistent auth"
+name: "ChatGPT Terminal"
+description: "Terminal interface for OpenAI's Codex CLI with persistent auth"
 version: "1.4.0"
-slug: "claude_terminal"
+slug: "chatgpt_terminal"
 init: false
 
 # Supported architectures
@@ -12,13 +12,13 @@ arch:
   - armv7
 
 # External resources
-url: "https://github.com/anthropics/claude-code"
+url: "https://github.com/openai/openai-codex"
 
 # Web interface configuration
 ingress: true
 ingress_port: 7681
 panel_icon: mdi:code-braces
-panel_title: "Claude Terminal"
+panel_title: "ChatGPT Terminal"
 panel_admin: true
 
 # Port configuration
@@ -29,11 +29,11 @@ ports_description:
 
 # Add-on configuration options
 options:
-  auto_launch_claude:
-    name: "Auto-launch Claude"
-    description: "Auto-start Claude on terminal open (disable for session picker)"
+  auto_launch_codex:
+    name: "Auto-launch Codex"
+    description: "Auto-start Codex on terminal open (disable for session picker)"
 schema:
-  auto_launch_claude: bool?
+  auto_launch_codex: bool?
 
 # Volume mappings for file access
 map:
