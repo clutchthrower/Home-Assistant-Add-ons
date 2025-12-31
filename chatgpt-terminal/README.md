@@ -82,21 +82,6 @@ codex-logout        # Clear credentials and re-authenticate
 - Check add-on logs if the terminal doesn't load
 - Restart the add-on if Codex commands aren't recognized
 
-### Development
-For local development and testing:
-```bash
-# Enter development environment
-nix develop
-
-# Build and test locally
-build-addon
-run-addon
-
-# Lint and validate
-lint-dockerfile
-test-endpoint
-```
-
 ## Architecture
 
 - **Base Image**: Home Assistant Alpine Linux base (3.19)
@@ -113,23 +98,6 @@ Version 1.0.2 includes important security improvements:
 - ✅ **Proper Permission Handling**: Consistent file permissions (600) for credentials
 - ✅ **Input Validation**: Enhanced error checking and bounds validation
 
-## Development Environment
-
-This add-on includes a comprehensive development setup using Nix:
-
-```bash
-# Available development commands
-build-addon      # Build the add-on container with Podman
-run-addon        # Run add-on locally on port 7682
-lint-dockerfile  # Lint Dockerfile with hadolint
-test-endpoint    # Test web endpoint availability
-```
-
-**Requirements for development:**
-- NixOS or Nix package manager
-- Podman (automatically provided in dev shell)
-- Optional: direnv for automatic environment activation
-
 ## Documentation
 
 For detailed usage instructions, see the [documentation](DOCS.md).
@@ -140,7 +108,6 @@ For detailed usage instructions, see the [documentation](DOCS.md).
 - 🔒 **CRITICAL**: Fixed dangerous filesystem operations
 - 🐛 Added missing armv7 architecture support
 - 🔧 Pinned NPM packages and improved error handling
-- 🛠️ Enhanced development environment with Podman support
 
 ### v1.0.1
 - Improved credential management

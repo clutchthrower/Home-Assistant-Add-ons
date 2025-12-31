@@ -185,12 +185,6 @@ The following versions were based on Anthropic's Claude Code CLI before the conv
 - Added proper validation for script copying and execution
 - Improved startup logging for better debugging
 
-### 🧪 Development
-- Updated development environment to use Podman instead of Docker
-- Added proper build arguments for local testing
-- Created comprehensive testing framework with Nix development shell
-- Added container policy configuration for rootless operation
-
 ## 1.0.0
 
 - First stable release of Claude Terminal add-on:
